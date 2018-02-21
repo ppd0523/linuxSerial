@@ -66,11 +66,12 @@ int main(int argc, char* argv[]){
 
     connected = 1;
 
-    char a[20] = {0, };
-    char b[5] = {1, 2, 3, 4, 5};
+    DATA_TYPE b[5] = {1, 2, 3, 4, 5};
 
     push(b, 3);
     push(b, 2);
+    pop(b, 3);
+    push(b, 5);
 
     while(connected == 1){
         
