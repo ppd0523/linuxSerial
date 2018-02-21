@@ -1,0 +1,1 @@
+add_executable(serial main.cpp queue.cpp)

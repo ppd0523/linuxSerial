@@ -77,7 +77,7 @@ int main(int argc, char* argv[]){
     }
 
     close(fd);
-    
+    close(wf);
     return 0;
 }
 
