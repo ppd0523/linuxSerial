@@ -2,27 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/socket.h>
+
 #include <netinet/in.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/signal.h>
 #include <errno.h>
 #include <termios.h>
 
+#include <time.h>
+
+#include "queue.h"
+
 void signal_handler_IO(int status);
 
-int n;
-int fd;
+int fd, wf;
 int connected;
 struct termios termAttr;
 struct sigaction saio;
 
+struct timespec t;
+char buf[255];
+ssize_t n;
 
 int main(int argc, char* argv[]){
     fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
     if( fd == -1){
         perror("open_port: Unable to open /dev/ttyUSB0\n");
+    }
+
+    wf = open("./data.txt", O_WRONLY | O_TRUNC);
+    if( wf == -1){
+        perror("open_port: Unable to open data.txt\n");
     }
 
     printf("hello world\n");
@@ -53,8 +66,14 @@ int main(int argc, char* argv[]){
 
     connected = 1;
 
-    while(connected == 1){
+    char a[20] = {0, };
+    char b[5] = {1, 2, 3, 4, 5};
 
+    push(b, 3);
+    push(b, 2);
+
+    while(connected == 1){
+        
     }
 
     close(fd);
@@ -62,6 +81,15 @@ int main(int argc, char* argv[]){
     return 0;
 }
 
+static int cnt = 0;
+
 void signal_handler_IO(int status){
-    printf("receive data from UART.\n");
+    if(cnt ++ > 80){
+        cnt = 0;
+        printf("%16d %x%x%x%x%x%x%x%x\n", cnt, buf[0], buf[1],buf[2], buf[3],buf[4],buf[5],buf[6],buf[7]);
+
+    }
+    n = read(fd, buf, 8);
+    write(wf, buf, n);
+    
 }
