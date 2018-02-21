@@ -3,7 +3,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
-
 #include <netinet/in.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -66,11 +65,11 @@ int main(int argc, char* argv[]){
 
     connected = 1;
 
-    DATA_TYPE b[5] = {1, 2, 3, 4, 5};
+    Data_t b[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    push(b, 3);
-    push(b, 2);
-    pop(b, 3);
+    push(b, 7);
+    pop(b, 5);
+    push(b, 7);
     push(b, 5);
 
     while(connected == 1){

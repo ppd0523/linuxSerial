@@ -4,8 +4,8 @@
 
 #define QUEUE_SIZE 10
 
-#define DATA_TYPE uint8_t
+typedef uint8_t Data_t;
 
-void push(DATA_TYPE* src, int n);
-int pop(DATA_TYPE* dest, int n);
-int pop(DATA_TYPE* dset);
+void push(Data_t* src, int n);
+int pop(Data_t* dest, int n);
+int pop(Data_t* dset);
