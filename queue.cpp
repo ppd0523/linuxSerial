@@ -50,7 +50,31 @@ int pop(Data_t* dest, int n){
         return n;
     }
     else{
-        return -1;
+        //elements < n
+        return 0;
+    }
+}
+
+int pop(Data_t* dest){
+    if(8 <= len){
+        len -= 8;
+        empty += 8;
+        nextF = (f + 8) % QUEUE_SIZE;
+        if(nextF < r){
+            memcpy(&dest, &queue[f], 8);
+        }
+        else{
+            half = QUEUE_SIZE - f;
+            memcpy(dest, &queue[f], half);
+            memcpy(&dest[half], queue, 8-half);
+        }
+
+        f = nextF;
+
+        return 8;
+    }
+    else{
+        return 0;
         //elements < n
     }
 }

@@ -47,5 +47,4 @@ void initSerial(int* fd){
 
 void deInitSerial(int* fd){
     close(*fd);
-
 }
