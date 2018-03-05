@@ -11,7 +11,7 @@ static int len = 0;
 static int half = 0;
 
 void push(Data_t* src, int n){
-    if(n <= empty){
+    if(0 <= n && n <= empty){
         empty -= n;
         len += n;
         nextR = (r + n) % QUEUE_SIZE;
