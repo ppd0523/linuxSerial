@@ -12,18 +12,11 @@
 struct termios termAttr;
 struct sigaction saio;
 
-extern void signal_handler_IO(int status);
-
 void initSerial(int* fd){
     *fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
     if( *fd == -1){
         perror("open_port: Unable to open /dev/ttyUSB0\n");
     }
-
-    saio.sa_handler = signal_handler_IO;
-    saio.sa_flags = 0;
-    saio.sa_restorer = NULL;
-    sigaction(SIGIO, &saio, NULL);
     
     fcntl(*fd, F_SETFL, FNDELAY);
     fcntl(*fd, F_SETOWN, getpid());

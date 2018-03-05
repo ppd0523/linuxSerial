@@ -15,7 +15,7 @@ void push(Data_t* src, int n){
         empty -= n;
         len += n;
         nextR = (r + n) % QUEUE_SIZE;
-        if(nextR > f){
+        if(r < nextR){
             memcpy(&queue[r], src, n);
         }
         else{
@@ -36,13 +36,13 @@ int pop(Data_t* dest, int n){
         len -= n;
         empty += n;
         nextF = (f + n) % QUEUE_SIZE;
-        if(nextF < r){
-            memcpy(&dest, &queue[f], n);
+        if(nextF >= f){
+            memcpy((void*)dest, (void*)&queue[f], n);
         }
         else{
             half = QUEUE_SIZE - f;
-            memcpy(dest, &queue[f], half);
-            memcpy(&dest[half], queue, n-half);
+            memcpy((void*)dest, (void*)&queue[f], half);
+            memcpy((void*)&dest[half], (void*)queue, n-half);
         }
 
         f = nextF;
@@ -60,13 +60,13 @@ int pop(Data_t* dest){
         len -= 8;
         empty += 8;
         nextF = (f + 8) % QUEUE_SIZE;
-        if(nextF < r){
-            memcpy(&dest, &queue[f], 8);
+        if(nextF >= f){
+            memcpy((void*)dest, (void*)&queue[f], 8);
         }
         else{
             half = QUEUE_SIZE - f;
-            memcpy(dest, &queue[f], half);
-            memcpy(&dest[half], queue, 8-half);
+            memcpy((void*)dest, (void*)&queue[f], half);
+            memcpy((void*)&dest[half], (void*)queue, 8-half);
         }
 
         f = nextF;
