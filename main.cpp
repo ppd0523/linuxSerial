@@ -11,7 +11,7 @@
 
 
 Data_t data[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-ssize_t n;
+
 int npop = 0;
 Data_t buf[255];
 int fd, wf;

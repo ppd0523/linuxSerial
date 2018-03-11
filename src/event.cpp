@@ -8,8 +8,8 @@
 
 #include "event.h"
 
-struct termios termAttr;
-struct sigaction saio;
+struct termios term;
+struct sigaction sigact;
 struct input_event evt;
 const char* val[3] = {
     "RELEASED",
@@ -43,10 +43,10 @@ void initKeyEvent(int fd){
     kd = fd;
     printf("Key interrupt On\n");
     
-    saio.sa_handler = signal_handler_IO;
-    saio.sa_flags = 0;
-    saio.sa_restorer = NULL;
-    sigaction(SIGIO, &saio, NULL);
+    sigact.sa_handler = signal_handler_IO;
+    sigact.sa_flags = 0;
+    sigact.sa_restorer = NULL;
+    sigaction(SIGIO, &sigact, NULL);
     
     fcntl(fd, F_SETFL, FNDELAY);
     fcntl(fd, F_SETOWN, getpid());

@@ -15,11 +15,10 @@ struct sigaction saio;
 extern Data_t buf[255];
 extern pthread_mutex_t queMtx;
 extern int fd;
-extern ssize_t n;
 extern Data_t data[8];
 int rt = 0;
 
-void signal_handler_IO(int status){
+void recvEvent(int status){
         
         rt = read(fd, buf, 255);
         pthread_mutex_lock(&queMtx);
@@ -36,7 +35,7 @@ void initSerial(int* fd){
         perror("open_port: Unable to open /dev/ttyUSB0\n");
     }
     
-    saio.sa_handler = signal_handler_IO;
+    saio.sa_handler = recvEvent;
     saio.sa_flags = 0;
     saio.sa_restorer = NULL; 
     sigaction(SIGIO,&saio,NULL);

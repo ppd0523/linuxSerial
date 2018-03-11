@@ -13,18 +13,20 @@ include_directories(INC
     inc
 )
 
-file(GLOB SRC_FILES
+file(GLOB_RECURSE SRC_FILES
+    inc/*
     src/event.cpp
     src/queue.cpp
     src/serial.cpp
+    main.cpp
 )
 
-add_library(SRC
-    ${SRC_FILES}
-)
+#add_library(SRC
+#    ${SRC_FILES}
+#)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} ${SRC_FILES} )
 
 target_link_libraries(${PROJECT_NAME}
-    pthread SRC
+    pthread
 )
