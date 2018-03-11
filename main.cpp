@@ -9,26 +9,27 @@
 
 #include <time.h>
 
-Data_t buf[255];
+
 Data_t data[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 ssize_t n;
-
+int npop = 0;
+Data_t buf[255];
 int fd, wf;
 pthread_t hThread;
 pthread_mutex_t queMtx = PTHREAD_MUTEX_INITIALIZER;
 
-void* recvThread(void* arg){
-    puts("recv thread create");
-    while(1){
-        pthread_mutex_lock(&queMtx);
+// void* recvThread(void* arg){
+//     puts("recv thread create");
+//     while(1){
+//         pthread_mutex_lock(&queMtx);
 
-        n = read(fd, buf, 255);
-        push(data, n);
+//         n = read(fd, buf, 255);
+//         push(data, n);
         
-        pthread_mutex_unlock(&queMtx);
-        sleep(0);
-    }
-}
+//         pthread_mutex_unlock(&queMtx);
+//         sleep(0);
+//     }
+// }
 
 int main(int argc, char* argv[]){
 
@@ -37,7 +38,7 @@ int main(int argc, char* argv[]){
         perror("open_port: Unable to open data.txt\n");
     }
 
-    pthread_create(&hThread, NULL, recvThread, NULL);
+    // pthread_create(&hThread, NULL, recvThread, NULL);
     initSerial(&fd);
 
     puts("main thread create");
@@ -46,7 +47,8 @@ int main(int argc, char* argv[]){
     while(1){
         pthread_mutex_lock(&queMtx);
 
-        if( pop(data) ){
+        npop = pop(data);
+        if( npop == 8 ){
             write(wf, data, 8);
         }
 
