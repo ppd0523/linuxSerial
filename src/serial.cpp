@@ -21,12 +21,12 @@ int rt = 0;
 void recvEvent(int status){
         
         rt = read(fd, buf, 255);
-        pthread_mutex_lock(&queMtx);
+        // pthread_mutex_lock(&queMtx);
        
         if( rt > 0 )
             push(buf, rt);
 
-        pthread_mutex_unlock(&queMtx);
+        // pthread_mutex_unlock(&queMtx);
 }
 
 void initSerial(int* fd){

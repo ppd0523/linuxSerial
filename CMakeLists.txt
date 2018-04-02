@@ -18,6 +18,7 @@ file(GLOB_RECURSE SRC_FILES
     src/event.cpp
     src/queue.cpp
     src/serial.cpp
+    src/util.cpp
     main.cpp
 )
 
