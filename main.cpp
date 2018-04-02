@@ -3,11 +3,12 @@
 #include <fcntl.h>
 #include <string.h>
 #include <pthread.h>
+#include <algorithm>
+#include <time.h>
 
 #include "queue.h"
 #include "serial.h"
 
-#include <time.h>
 
 
 Data_t data[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -17,6 +18,20 @@ Data_t buf[255];
 int fd, wf;
 pthread_t hThread;
 pthread_mutex_t queMtx = PTHREAD_MUTEX_INITIALIZER;
+
+#pragma pack(push, 1)
+typedef union{
+    uint8_t raw[8];
+    struct {
+        uint8_t emg0;
+        uint8_t emg1;
+        uint16_t enc;
+    } p;
+} DataSet;
+#pragma pack(pop)
+
+DataSet rawData;
+
 
 // void* recvThread(void* arg){
 //     puts("recv thread create");
@@ -50,6 +65,8 @@ int main(int argc, char* argv[]){
         npop = pop(data);
         if( npop == 8 ){
             write(wf, data, 8);
+            std::copy(data, data+8, rawData.raw);
+            printf("%d %d %d\n", rawData.p.emg0, rawData.p.emg1, rawData.p.enc);
         }
 
         pthread_mutex_unlock(&queMtx);
